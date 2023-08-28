@@ -1,11 +1,11 @@
 let MainDiv = {
     type: "div",
     class: "container",
-    child: [
+    container: [
         {
             type: "div",
             class: "top-div",
-            child: [
+            topDiv: [
                 {
                     type: "label",
                     class: "display-amount",
@@ -26,7 +26,7 @@ let MainDiv = {
         {
             type: "div",
             class: "middle-div",
-            child: [
+            middleDiv: [
                 {
                     type: "label",
                     class: "wd-to-text",
@@ -35,7 +35,7 @@ let MainDiv = {
                 {
                     type: "select",
                     class: "select-acc",
-                    child: [
+                    selectAccount: [
                         {
                             type: "option",
                             text: "HDFC Bank - XXXXXXXXXXXX-9025"
@@ -62,7 +62,7 @@ let MainDiv = {
                 {
                     type: "div",
                     class: "input-div",
-                    child: [
+                    inputDiv: [
                         {
                             type: "span",
                             class: "input-front",
@@ -80,11 +80,11 @@ let MainDiv = {
         {
             type: "div",
             class: "bottom-div",
-            child: [
+            bottomDiv: [
                 {
                     type: "div",
                     class: "bottom-up",
-                    child: [
+                    bottomUp: [
                         {
                             type: "label",
                             class: "top-left",
@@ -100,7 +100,7 @@ let MainDiv = {
                 {
                     type: "div",
                     class: "bottom-down",
-                    child: [
+                    bottomDown: [
                         {
                             type: "label",
                             class: "down-left",
@@ -123,29 +123,64 @@ let MainDiv = {
     ]
 }
 
+function create(elementData) {
+    if (typeof elementData === 'string') {
+        return document.createTextNode(elementData);
+    }
 
+    const element = document.createElement(elementData.type);
 
-function create(MainDiv) {
-    let temp = document.createElement(MainDiv.type);
+    if (elementData.class) {
+        element.classList.add(elementData.class);
+    }
+    if (elementData.text) {
+        element.innerText = elementData.text;
+    }
+    if (elementData.placeholder) {
+        element.placeholder = elementData.placeholder;
+    }
+    if (elementData.container) {
+        elementData.container.forEach(item => {
+            element.appendChild(create(item));
+        });
+    }
+    if (elementData.selectAccount) {
+        elementData.selectAccount.forEach(item => {
+            element.appendChild(create(item));
+        });
+    }
+    if (elementData.inputDiv) {
+        elementData.inputDiv.forEach(item => {
+            element.appendChild(create(item));
+        });
+    }
+    if (elementData.topDiv) {
+        elementData.topDiv.forEach(item => {
+            element.appendChild(create(item));
+        });
+    }
+    if (elementData.middleDiv) {
+        elementData.middleDiv.forEach(item => {
+            element.appendChild(create(item));
+        });
+    }
+    if (elementData.bottomDiv) {
+        elementData.bottomDiv.forEach(item => {
+            element.appendChild(create(item));
+        });
+    }
+    if (elementData.bottomUp) {
+        elementData.bottomUp.forEach(item => {
+            element.appendChild(create(item));
+        });
+    }
+    if (elementData.bottomDown) {
+        elementData.bottomDown.forEach(item => {
+            element.appendChild(create(item));
+        });
+    }
 
-    if (MainDiv.class) {
-        temp.classList.add(MainDiv.class);
-    }
-    if (MainDiv.text) {
-        temp.innerText = MainDiv.text;
-    }
-    if (MainDiv.option) {
-        temp.option = MainDiv.option;
-    }
-    if (MainDiv.placeholder) {
-        temp.placeholder = MainDiv.placeholder;
-    }
-    if (MainDiv.child) {
-        MainDiv.child.forEach(item => {
-            temp.appendChild(create(item));
-        })
-    }
-    return temp;
+    return element;
 }
 
 let mainDiv = create(MainDiv);
